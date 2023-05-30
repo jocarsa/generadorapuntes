@@ -18,7 +18,8 @@ def get_files_and_folders(directory, depth=0):
 
 archivos = {}
 # Usage example
-directory_path = "fullstack2023-3"
+directory_path = "../fullstack2023-3"
+subecarpeta = "GitHub2/"
 titulo = "Titulo 11"
 subtitulo = "Subtitulo"
 autor = "Jose Vicente Carratala"
@@ -136,13 +137,8 @@ f.write('''
                 header{position:fixed;top:0px;border-bottom:1px solid grey;width:100%;text-align:center;}
                 footer{position:fixed;bottom:0px;border-top:1px solid grey;width:100%;text-align:center;}
                 .nocode{background:white;font-family:Ubuntu;}
-                @page  
-                    { 
-                        size: auto;   /* auto is the initial value */ 
-
-                        /* this affects the margin in the printer settings */ 
-                        margin: 15mm 15mm 15mm 15mm;  
-                    }
+                 
+                    
                     .ruptura{
                         page-break-after  :always;
                     page-break-before :always;
@@ -159,6 +155,12 @@ f.write('''
                     .numerodelinea{color:grey;width:20px;text-align:right;display:inline-block;}
                     .nocode img{
                     max-width:100%;text-align:center;margin:auto;}
+                    @page  
+                    { 
+                        size: auto;   /* auto is the initial value */ 
+
+                        /* this affects the margin in the printer settings */ 
+                        margin: 15mm 15mm 15mm 15mm; 
                     #pageFooter {
                         display: table-footer-group;
                     }
@@ -166,6 +168,22 @@ f.write('''
                     #pageFooter:after {
                         counter-increment: page;
                         content: counter(page);
+                    }
+                    }
+                    @page:first
+                    { 
+                        size: auto;   /* auto is the initial value */ 
+
+                        /* this affects the margin in the printer settings */ 
+                        margin: 15mm 15mm 15mm 15mm; 
+                    #pageFooter {
+                        display: none;
+                    }
+
+                    #pageFooter:after {
+                        counter-increment: page;
+                        content: counter(page);
+                    }
                     }
             </style>
             
@@ -294,7 +312,7 @@ for item,depth in file_list:
             f.write("<h"+str(depth+1)+" id='"+item+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</h"+str(depth+1)+">")
             nivel6+=1                   
             
-        if depth+1 == 1 and "royecto" in item:
+        if  "royecto" in os.path.basename(item):
             nivel2+=1
             #f.write("<h2> </h2>")
             f.write("<h2> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+"Estructura del directorio</h2>")
@@ -360,9 +378,9 @@ for item,depth in file_list:
             f.write("</pre>")
             pass
         elif "captura" in item:
-            f.write("</pre><pre class='captura'><img src='"+item+"'></pre>")
+            f.write("</pre><pre class='captura'><img src='"+subecarpeta+item+"'></pre>")
         elif "png" in item or "jpg" in item:
-            f.write("</pre><pre class='nocode'><img src='"+item+"'></pre>")
+            f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
         else:
             file_path = item
             with open(file_path, 'r', encoding='utf-8-sig') as file:
