@@ -339,17 +339,18 @@ def apuntes(carpeta):
                         estructura += "<img src='vacio.svg' class='carpeta' style='margin-left:5px;'>"
                     if sub == True:
                         estructura += "<img src='nodocarpeta.svg' class='carpeta' style='margin-left:5px;'>"
-                    if os.path.isfile(item2):
+                    if os.path.isfile(item2) and not "acomment" in item:
                        estructura += "<img src='archivo.svg' class='carpeta'>"
                     else:
                         estructura += "<img src='carpeta.svg' class='carpeta'>"
-                    estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
+                    if not "acomment" in item:
+                        estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
                 f.write(estructura)
                 #f.write("<h2> Contenido:</h2>")
                 #f.write("<h3>Directorio raíz:</h3>")
         else:
 
-            if "comentario" in item:
+            if "comment" in item:
                 f.write("<p class='negrita'>"+item.split('\\')[-1].split('-')[-1].split('.')[0]+"</p>")
                 
             else:
@@ -357,24 +358,25 @@ def apuntes(carpeta):
                 #f.write("<div class='nombrearchivo'>"+os.path.basename(item).split('\\')[-1]+"</div>")
                 partido = item.split('\\')
                 micadena = ""
-                for i in range(2,len(partido)):
-                    micadena += "/"
-                    if i == len(partido)-1:
-                        micadena += "<img src='archivo.svg' class='carpeta'>"
+                if not "acomment" in item:
+                    for i in range(2,len(partido)):
+                        micadena += "/"
+                        if i == len(partido)-1:
+                            micadena += "<img src='archivo.svg' class='carpeta'>"
+                        else:
+                            micadena += "<img src='carpeta.svg' class='carpeta'>"
+                        
+                        micadena += partido[i].split('-')[-1]
+                    if "captura" in item:
+                        f.write("<p class='negrita'>Resultado:</p>")
+                        f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
                     else:
-                        micadena += "<img src='carpeta.svg' class='carpeta'>"
-                    
-                    micadena += partido[i].split('-')[-1]
-                if "captura" in item:
-                    f.write("<p class='negrita'>Resultado:</p>")
-                    f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
-                else:
-                    f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
-        
+                        f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
+            
                
                     
         try:
-            if "comentario" in item:
+            if "acomment" in item:
                 f.write("</pre><pre class='nocode'>")
                 f.write("<p>")
                 file_path = item
@@ -436,15 +438,18 @@ def apuntes(carpeta):
                                     numerodelinea += 1
                             f.write("<br>")
                             #f.write(str(count)+"\n\r\n\r")
-                            if "png" in item or "jpg" in item:
+                            if "acomment" in item:
+                                pass
+                            elif "png" in item or "jpg" in item:
                                 archivos[os.path.basename(item)] = os.path.getsize(item)
                             else:    
                                 archivos[os.path.basename(item)] = content
                             f.write("</pre>")
                             if not os.path.exists(item):
-                                f2 = open(item+".acomment", 'w+')
-                                f2.write("a")
-                                f2.close()
+                                print("escribo")
+                                #f2 = open("C:\\prueba\\prueba.txt", 'w+')
+                                #f2.write("a")
+                                #f2.close()
                     else:
                             numerodelinea = 1
                             f.write("</pre><pre class='code'>")
@@ -458,20 +463,27 @@ def apuntes(carpeta):
                             f.write("<br>")
                             f.write("</pre>")
                             archivos[os.path.basename(item)] = content
-                            if not os.path.exists(item):
-                                f2 = open(item+".acomment", 'w+')
-                                f2.write("a")
-                                f2.close()
+                            
                                 
                     f.write("</pre>")
-                
+            
         except Exception as e:
             #print(item)
-            #print(e)
+            print(e)
             #print("------------------------")
             print("error")
             pass
-
+        if not "acomment" in item and os.path.isfile(item):
+                print(item)
+                directorio = os.path.dirname(item)
+                archivo = os.path.basename(item)
+                explotado = os.path.splitext(archivo)
+                nombrearchivo = explotado[0]
+                extensionarchivo = explotado[1]
+                nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
+                f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
+                f2.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+                f2.close()
     f.write('''
     <div id="pageFooter">Page </div>
         </main>
@@ -486,6 +498,7 @@ def apuntes(carpeta):
 def button_click():
     value = entry.get()
     print("Button clicked with value:", value)
+    apuntes(value)
     apuntes(value)
 
 root = tk.Tk()
