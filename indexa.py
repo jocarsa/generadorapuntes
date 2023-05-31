@@ -15,10 +15,10 @@ def get_files_and_folders(directory, depth=0):
                 items.append((path, depth))
                 items.extend(get_files_and_folders(path, depth + 1))
     return items
-
+excepciones = ['jquery-3.7.0.js','jquery-3.7.0.min.js']
 archivos = {}
 # Usage example
-directory_path = "../fullstack2023-3"
+directory_path = "../jquery"
 subecarpeta = "GitHub2/"
 titulo = "Titulo 11"
 subtitulo = "Subtitulo"
@@ -341,6 +341,7 @@ for item,depth in file_list:
 
         if "comentario" in item:
             f.write("<p class='negrita'>"+item.split('\\')[-1].split('-')[-1].split('.')[0]+"</p>")
+            
         else:
             
             #f.write("<div class='nombrearchivo'>"+os.path.basename(item).split('\\')[-1]+"</div>")
@@ -385,7 +386,9 @@ for item,depth in file_list:
             file_path = item
             with open(file_path, 'r', encoding='utf-8-sig') as file:
                 content = file.read()
-                if str(os.path.basename(item)) in archivos.keys():
+                if os.path.basename(item) in excepciones:
+                    f.write("</pre><pre class='code'>(omitido)</pre<br>")
+                elif str(os.path.basename(item)) in archivos.keys():
                     
                     if archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item):
                         f.write("</pre><pre class='code'>(sin cambios)</pre<br>")
