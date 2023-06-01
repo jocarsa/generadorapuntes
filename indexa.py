@@ -56,10 +56,13 @@ def apuntes(carpeta):
         <html>
             <head>
                 <style>
+                    
                     @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
                     body{
                         font-family:Ubuntu;
                     }
+                    table{width:100%;}
+                    .numpagina{width:10%;text-align:right;}
                     main{
                         font-family:Ubuntu;
                         
@@ -165,15 +168,7 @@ def apuntes(carpeta):
                         .numerodelinea{color:grey;width:20px;text-align:right;display:inline-block;}
                         .nocode img{
                         max-width:100%;text-align:center;margin:auto;}
-                        @page  
-                        { 
-                            size: auto;   /* auto is the initial value */ 
-
-                            /* this affects the margin in the printer settings */ 
-                            margin: 15mm 15mm 15mm 15mm; 
-                        #pageFooter {
-                            display: table-footer-group;
-                        }
+                        
 
                         #pageFooter:after {
                             counter-increment: page;
@@ -207,6 +202,8 @@ def apuntes(carpeta):
             <div id="autor">'''+autor+'''</div>
             <div class="ruptura"></div>
             <div id="tabladecontenido">Tabla de contenido</div>
+            <table>
+            
     ''')
     ###################################INDICE
 
@@ -224,16 +221,16 @@ def apuntes(carpeta):
             f.write("</pre>")
             if depth  == 0:
                 nivel1+=1
-                f.write("<a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 
                 nivel2 = 1
                 nivel3 = 1
                 nivel4 = 1
                 nivel5 = 1
                 nivel6 = 1
-            elif depth  == 1 and not("royecto" in item):
+            elif depth  == 1:
                 nivel2+=1
-                f.write("<a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 
 
                 nivel3 = 1
@@ -242,7 +239,7 @@ def apuntes(carpeta):
                 nivel6 = 1
             elif depth  == 2 and not("royecto" in item):
                 nivel3+=1
-                f.write("<a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 
                 
                 nivel4 = 1
@@ -250,24 +247,24 @@ def apuntes(carpeta):
                 nivel6 = 1
             elif depth  == 3 and not("royecto" in item):
                 nivel4+=1
-                f.write("<a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 
                 nivel5 = 1
                 nivel6 = 1
             elif depth  == 4 and not("royecto" in item):
                 nivel5+=1
-                f.write("<a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 
 
                 nivel6 = 1
             elif depth  == 5 and not("royecto" in item):
-                f.write("<p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a>")
+                f.write("<tr><td><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 nivel6+=1                   
                 
-           
+    f.write("</table>")
         
     ###################################CONTENIDO
-        archivos = {}
+    archivos = {}
     nivel1 = 0
     nivel2 = 0
     nivel3 = 0
@@ -323,9 +320,9 @@ def apuntes(carpeta):
                 nivel6+=1                   
                 
             if  "royecto" in os.path.basename(item):
-                nivel2+=1
+                #nivel2+=1
                 #f.write("<h2> </h2>")
-                f.write("<h2> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+"Estructura del directorio</h2>")
+                f.write("<b>Estructura del directorio</b><br>")
                 nivel3 = 1
                 nivel4 = 1
                 nivel5 = 1
@@ -333,25 +330,27 @@ def apuntes(carpeta):
                 file_list2 = get_files_and_folders(item)
                 estructura = ""
                 for item2,depth2 in file_list2:
-                    sub = False
-                    for i in range(0,depth2):
-                        sub = True
-                        estructura += "<img src='vacio.svg' class='carpeta' style='margin-left:5px;'>"
-                    if sub == True:
-                        estructura += "<img src='nodocarpeta.svg' class='carpeta' style='margin-left:5px;'>"
-                    if os.path.isfile(item2) and not "acomment" in item:
-                       estructura += "<img src='archivo.svg' class='carpeta'>"
-                    else:
-                        estructura += "<img src='carpeta.svg' class='carpeta'>"
-                    if not "acomment" in item:
-                        estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
+                    if not "acomment" in item2:
+                        sub = False
+                        for i in range(0,depth2):
+                            sub = True
+                            estructura += "<img src='vacio.svg' class='carpeta' style='margin-left:5px;'>"
+                        if sub == True:
+                            estructura += "<img src='nodocarpeta.svg' class='carpeta' style='margin-left:5px;'>"
+                        if os.path.isfile(item2) and not "acomment" in item:
+                           estructura += "<img src='archivo.svg' class='carpeta'>"
+                        else:
+                            estructura += "<img src='carpeta.svg' class='carpeta'>"
+                        if not "acomment" in item:
+                            estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
                 f.write(estructura)
                 #f.write("<h2> Contenido:</h2>")
                 #f.write("<h3>Directorio raíz:</h3>")
         else:
 
             if "comment" in item:
-                f.write("<p class='negrita'>"+item.split('\\')[-1].split('-')[-1].split('.')[0]+"</p>")
+                #f.write("<p class='negrita'>"+item.split('\\')[-1].split('-')[-1].split('.')[0]+"</p>")
+                pass
                 
             else:
                 
@@ -485,9 +484,23 @@ def apuntes(carpeta):
                 
     f.write('''
     <div id="pageFooter">Page </div>
+    <div id="prueba"></div>
         </main>
+        
         <footer>Pie de pagina</footer>
         </body>
+        <script>
+            // Get the element using a selector
+            const element = document.getElementById("prueba")
+
+            // Get the computed style of the element
+            const styles = window.getComputedStyle(element);
+
+            // Retrieve the page or sheet value
+            const page = styles.getPropertyValue('page');
+            element.innerHTML = page
+            console.log(page)
+        </script>
         </html>
     ''')
         
