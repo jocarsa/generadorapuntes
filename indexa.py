@@ -473,7 +473,7 @@ def apuntes(carpeta):
             #print("------------------------")
             print("error")
             pass
-        if not "acomment" in item and os.path.isfile(item):
+        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(item):
                 print(item)
                 directorio = os.path.dirname(item)
                 archivo = os.path.basename(item)
@@ -482,8 +482,7 @@ def apuntes(carpeta):
                 extensionarchivo = explotado[1]
                 nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
                 f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
-                f2.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                f2.close()
+                
     f.write('''
     <div id="pageFooter">Page </div>
         </main>
