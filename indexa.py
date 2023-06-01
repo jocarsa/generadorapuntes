@@ -55,142 +55,7 @@ def apuntes(carpeta):
         <!doctype html>
         <html>
             <head>
-                <style>
-                    
-                    @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-                    body{
-                        font-family:Ubuntu;
-                    }
-                    table{width:100%;}
-                    .numpagina{width:10%;text-align:right;}
-                    main{
-                        font-family:Ubuntu;
-                        
-                        background:white;
-                        display: table;
-                    }
-                    @media only screen {
-                    html{
-                        background:grey;
-                    }
-                        main{
-                        font-family:Ubuntu;
-                        max-width:800px;
-                        margin:auto;
-                        
-                        background:white;
-                        padding:50px;
-                        }
-                    }
-                    pre{
-                        padding:14px;
-                        background:rgb(240,240,240);
-                        border-radius:0px 0px 10px 10px;
-                        margin-top:0px;
-                        white-space: pre-wrap;
-                        font-size:11px;
-                        
-                    }
-                    .code,.captura{
-                    }
-                    .nombrearchivo{
-                        background:rgb(230,230,230);
-                        border-radius:5px 5px 0px 0px;
-                        font-size:14px;
-                        padding:5px;
-                        text-align:center;
-                        clear:both;
-                        margin-top:10px;
-                        border-bottom:1px solid rgb(220,220,220);
-                    }
-                    .plus{
-                        width:10px;
-                        height:10px;
-                        border-radius:10px;
-                        font-size:10px;
-                        font-weight:bold;
-                        background:rgb(220,220,220);
-                        color:black;
-                        display:inline-block;
-                        line-height:10px;
-                        text-align:center;
-                    }
-                    .carpeta{
-                    width:20px;
-                    }
-                    .negrita{
-                        font-weight:bold;
-                    }
-                    a{color:inherit;text-decoration:none;}
-                    .indice1{padding:0px;margin:0px;padding-left:20px;}
-                    .indice2{padding:0px;margin:0px;padding-left:40px;}
-                    .indice3{padding:0px;margin:0px;padding-left:60px;}
-                    .indice4{padding:0px;margin:0px;padding-left:80px;}
-                    .indice5{padding:0px;margin:0px;padding-left:100px;}
-                    .indice6{padding:0px;margin:0px;padding-left:120px;}
-                    #titulo{font-weight:bold;font-size:60px;text-align:center;}
-                    #subtitulo{font-weight:bold;font-size:40px;text-align:center;}
-                    #autor{font-weight:bold;font-size:30px;text-align:center;}
-                   p{text-align:justify;font-size:14px;}
-                     @media only print {
-                     h1{
-                     padding-top:200px;
-                        page-break-after  :always;
-                        page-break-before :always;
-                        text-align:center;
-                        font-size:60px;
-                    }
-                     }
-                     @media print {
-                      div.divFooter {
-                        position: fixed;
-                        bottom: 0;
-                      }
-                    }
-                    header{position:fixed;top:0px;border-bottom:1px solid grey;width:100%;text-align:center;}
-                    footer{position:fixed;bottom:0px;border-top:1px solid grey;width:100%;text-align:center;}
-                    .nocode{background:white;font-family:Ubuntu;}
-                     
-                        
-                        .ruptura{
-                            page-break-after  :always;
-                        page-break-before :always;
-                        }
-                        #titulo{
-                        padding-top:100px;}
-                        .boton{float:left;margin:4px;width:15px;height:15px;border-radius:20px;}
-                        .rojo{background:#ff5f57;}
-                        .amarillo{background:#ffbd2d;}
-                        .verde{background:#29ca41;}
-                        .captura{text-align:center;background:white;border:1px solid rgb(220,220,220);border-top:none;}
-                        .captura img{width:100%;}
-                        .url{width:50%;height:20px;border-radius:5px;background:white;margin:auto;}
-                        .numerodelinea{color:grey;width:20px;text-align:right;display:inline-block;}
-                        .nocode img{
-                        max-width:100%;text-align:center;margin:auto;}
-                        
-
-                        #pageFooter:after {
-                            counter-increment: page;
-                            content: counter(page);
-                        }
-                        }
-                        @page:first
-                        { 
-                            size: auto;   /* auto is the initial value */ 
-
-                            /* this affects the margin in the printer settings */ 
-                            margin: 15mm 15mm 15mm 15mm; 
-                        #pageFooter {
-                            display: none;
-                        }
-
-                        #pageFooter:after {
-                            counter-increment: page;
-                            content: counter(page);
-                        }
-                        }
-                </style>
+                <link rel="Stylesheet" href="generadorapuntes/estilo.css">
                 
             </head>
             <body>
@@ -201,6 +66,7 @@ def apuntes(carpeta):
             <div id="subtitulo">'''+subtitulo+'''</div>
             <div id="autor">'''+autor+'''</div>
             <div class="ruptura"></div>
+            <div id="table-of-contents"></div>
             <div id="tabladecontenido">Tabla de contenido</div>
             <table>
             
@@ -261,7 +127,7 @@ def apuntes(carpeta):
                 f.write("<tr><td><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
                 nivel6+=1                   
                 
-    f.write("</table>")
+    f.write("</table><div id='content'>")
         
     ###################################CONTENIDO
     archivos = {}
@@ -483,24 +349,14 @@ def apuntes(carpeta):
                 f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
                 
     f.write('''
+</div>
     <div id="pageFooter">Page </div>
     <div id="prueba"></div>
         </main>
         
         <footer>Pie de pagina</footer>
         </body>
-        <script>
-            // Get the element using a selector
-            const element = document.getElementById("prueba")
-
-            // Get the computed style of the element
-            const styles = window.getComputedStyle(element);
-
-            // Retrieve the page or sheet value
-            const page = styles.getPropertyValue('page');
-            element.innerHTML = page
-            console.log(page)
-        </script>
+        <script src="generadorapuntes/paginador.js"></script>
         </html>
     ''')
         
