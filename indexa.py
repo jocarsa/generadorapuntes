@@ -23,7 +23,7 @@ def get_files_and_folders(directory, depth=0):
 
 def apuntes(carpeta):
 
-    excepciones = ['jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js']
+    excepciones = ['jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
     archivos = {}
     # Usage example
     directory_path = "..\\"+carpeta
