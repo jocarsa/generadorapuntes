@@ -289,7 +289,8 @@ def apuntes(carpeta):
                                         else:
                                             f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+"<span class='plus'>+</span> "+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
                                     except:
-                                        f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+"<span class='plus'>+</span>"+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                                        f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+" "+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                                        pass
                                     numerodelinea += 1
                             else:
                                 for i in range(0,len(lines2)):
@@ -299,7 +300,8 @@ def apuntes(carpeta):
                                         else:
                                             f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+"<span class='plus'>+</span> "+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
                                     except:
-                                        f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+"<span class='plus'>+</span> "+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                                        f.write("<span class='numerodelinea'>"+str(numerodelinea)+"</span> "+" "+lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                                        pass
                                     numerodelinea += 1
                             f.write("<br>")
                             #f.write(str(count)+"\n\r\n\r")
@@ -307,7 +309,8 @@ def apuntes(carpeta):
                                 pass
                             elif "png" in item or "jpg" in item:
                                 archivos[os.path.basename(item)] = os.path.getsize(item)
-                            else:    
+                            else:
+                            
                                 archivos[os.path.basename(item)] = content
                             f.write("</pre>")
                             if not os.path.exists(item):
