@@ -82,6 +82,18 @@ def apuntes(carpeta):
 
     # Print the list of files and folders
     for item,depth in file_list:
+        directorio = os.path.dirname(item)
+        archivo = os.path.basename(item)
+        explotado = os.path.splitext(archivo)
+        nombrearchivo = explotado[0]
+        extensionarchivo = explotado[1]
+        nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
+        nuevocomentario = directorio+"//"+nombrenuevoarchivo
+        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(nuevocomentario):
+            print("voy a crearlo")
+            print(item)
+            
+            f2 = open(nuevocomentario, 'w+')
         #print(item)
         if not(os.path.isfile(item)):
             f.write("</pre>")
@@ -341,15 +353,7 @@ def apuntes(carpeta):
             #print("------------------------")
             print("error")
             pass
-        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(item):
-                print(item)
-                directorio = os.path.dirname(item)
-                archivo = os.path.basename(item)
-                explotado = os.path.splitext(archivo)
-                nombrearchivo = explotado[0]
-                extensionarchivo = explotado[1]
-                nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
-                f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
+    
                 
     f.write('''
 </div>
