@@ -99,7 +99,7 @@ def apuntes(carpeta):
         nombrearchivo = explotado[0]
         extensionarchivo = explotado[1]
         nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
-        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(nombrenuevoarchivo):     
+        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
             f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
         #print(item)
         if not(os.path.isfile(item)):
