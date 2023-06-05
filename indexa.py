@@ -273,7 +273,11 @@ def apuntes(carpeta):
                     lines = content.splitlines()
                     
                     for i in range(0,len(lines)):
-                        f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                        #if "--" in lines[i]:
+                            #f.write("<pre class='code'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))+"</pre>")
+                            #pass
+                        #else:
+                            f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
                 f.write("</p>")
                 f.write("</pre>")
                 pass

@@ -35,6 +35,7 @@ def get_selected_value():
 def apuntes(carpeta):
 
     excepciones = ['jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
+    abreviaturas = ['traductor.csv']
     archivos = {}
     # Usage example
     directory_path = "..\\"+carpeta
@@ -273,7 +274,11 @@ def apuntes(carpeta):
                     lines = content.splitlines()
                     
                     for i in range(0,len(lines)):
-                        f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                        if "--" in lines[i]:
+                            f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("--",""))+"</pre>")
+                            
+                        else:
+                            f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
                 f.write("</p>")
                 f.write("</pre>")
                 pass
@@ -287,6 +292,8 @@ def apuntes(carpeta):
                     content = file.read()
                     if os.path.basename(item) in excepciones:
                         f.write("</pre><pre class='code'>(omitido)</pre<br>")
+                    elif os.path.basename(item) in abreviaturas:
+                        f.write("</pre><pre class='code'>(abreviado)</pre<br>")
                     elif str(os.path.basename(item)) in archivos.keys():
                         
                         if archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item):
