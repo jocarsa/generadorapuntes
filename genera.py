@@ -52,6 +52,8 @@ def apuntes(carpeta):
         titulo = data['titulo']
         subtitulo = data['subtitulo']
         autor = data['autor']
+        cabecera = data['cabecera']
+        piedepagina = data['piedepagina']
     except:
         pass
 
@@ -71,7 +73,7 @@ def apuntes(carpeta):
                 
             </head>
             <body>
-            <header>Cabecera de página</header>
+            <header>'''+cabecera+'''</header>
             <main>
             <div id="pageFooter">Page </div>
             <div id="titulo">'''+titulo+'''</div>
@@ -80,6 +82,7 @@ def apuntes(carpeta):
             <div class="ruptura"></div>
             <div id="table-of-contents"></div>
             <div id="tabladecontenido">Tabla de contenido</div>
+            <script src="generadorapuntes/jquery-3.7.0.min.js"></script>
             <table>
             
     ''')
@@ -100,8 +103,11 @@ def apuntes(carpeta):
         nombrearchivo = explotado[0]
         extensionarchivo = explotado[1]
         nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
-        if not "acomment" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
+        nombrenuevoarchivoconsola = nombrearchivo+".zconsole"+extensionarchivo
+        if not "acomment" in item and not "zconsole" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
             f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
+        if not "zconsole" in item and not "acomment" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoconsola):     
+            f2 = open(directorio+"//"+nombrenuevoarchivoconsola, 'w+')
         #print(item)
         if not(os.path.isfile(item)):
             f.write("</pre>")
@@ -256,6 +262,8 @@ def apuntes(carpeta):
                     if "captura" in item:
                         f.write("<p class='negrita'>Resultado:</p>")
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
+                    elif "console" in item:
+                         f.write("<div class='nombrearchivo console'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
                     else:
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
             
@@ -348,7 +356,10 @@ def apuntes(carpeta):
                                 #f2.close()
                     else:
                             numerodelinea = 1
-                            f.write("</pre><pre class='code'>")
+                            if "console" in item:
+                                f.write("</pre><pre class='code console'>")
+                            else:
+                                f.write("</pre><pre class='code'>")
                             #print("nuevo")
                             
                             f.write("<br>")
@@ -377,7 +388,7 @@ def apuntes(carpeta):
     <div id="prueba"></div>
         </main>
         
-        <footer>Pie de pagina</footer>
+        <footer>'''+piedepagina+'''</footer>
         </body>
         <script src="generadorapuntes/paginador.js"></script>
         </html>
