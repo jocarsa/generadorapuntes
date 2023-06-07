@@ -389,7 +389,7 @@ def apuntes(carpeta):
 
 
 root = tk.Tk()
-root.title("Frame with Entry and Button")
+root.title("Hola chicos")
 
 frame = tk.Frame(root)
 frame.pack(padx=20, pady=20)
@@ -412,7 +412,7 @@ folder_combobox.pack()
 
 
 
-button = tk.Button(frame, text="Click Me", command=get_selected_value)
+button = tk.Button(frame, text="Vamos alla", command=get_selected_value)
 button.pack()
 
 root.mainloop()
