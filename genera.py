@@ -60,11 +60,12 @@ def apuntes(carpeta):
 
     file_list = get_files_and_folders(directory_path)
     try:
-        os.remove(directory_path+".html")
+        os.remove(directory_path+"-doc.html")
+        os.remove(directory_path+"-pres.html")
     except:
         pass
-    f = open(directory_path+".html", "a", encoding='utf-8-sig')
-
+    f = open(directory_path+"-doc.html", "a", encoding='utf-8-sig')
+    fpower = open(directory_path+"-pres.html", "a", encoding='utf-8-sig')
     f.write('''
         <!doctype html>
         <html>
@@ -76,6 +77,7 @@ def apuntes(carpeta):
             <header>'''+cabecera+'''</header>
             <main>
             <div id="pageFooter">Page </div>
+            <div id="primerapagina">'''+titulo+'''</div>
             <div id="titulo">'''+titulo+'''</div>
             <div id="subtitulo">'''+subtitulo+'''</div>
             <div id="autor">'''+autor+'''</div>
@@ -86,6 +88,32 @@ def apuntes(carpeta):
             <table>
             
     ''')
+    fpower.write(
+'''
+        <!doctype html>
+        <html>
+            <head>
+                <link rel="Stylesheet" href="generadorapuntes/estilo.css">
+                
+            </head>
+            <body id="diapositivas">
+           
+            </div>
+            <div id="primeradiapositiva" class="diapositiva">
+            <div id="titulo">'''+titulo+'''</div>
+            </div>
+            </div>
+            <div id="segundadiapositiva" class="diapositiva">
+            <div id="titulo">'''+titulo+'''</div>
+            <div id="subtitulo">'''+subtitulo+'''</div>
+            <div id="autor">'''+autor+'''</div>
+            </div>
+            </div>
+            <script src="generadorapuntes/jquery-3.7.0.min.js"></script>
+            
+            
+    '''
+        )
     ###################################INDICE
 
     nivel1 = 0
@@ -113,8 +141,8 @@ def apuntes(carpeta):
             f.write("</pre>")
             if depth  == 0:
                 nivel1+=1
-                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
-                
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
+                fpower.write("</div><div class='diapositiva invertida'><h1>"+item.split('\\')[-1].split('-')[-1]+"</h1>")
                 nivel2 = 1
                 nivel3 = 1
                 nivel4 = 1
@@ -122,8 +150,8 @@ def apuntes(carpeta):
                 nivel6 = 1
             elif depth  == 1:
                 nivel2+=1
-                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
-                
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
+                fpower.write("</div><div class='diapositiva'><h2>"+item.split('\\')[-1].split('-')[-1]+"</h2>")
 
                 nivel3 = 1
                 nivel4 = 1
@@ -131,26 +159,26 @@ def apuntes(carpeta):
                 nivel6 = 1
             elif depth  == 2 and not("royecto" in item):
                 nivel3+=1
-                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
-                
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
+                fpower.write("<h3>"+item.split('\\')[-1].split('-')[-1]+"</h3>")
                 
                 nivel4 = 1
                 nivel5 = 1
                 nivel6 = 1
             elif depth  == 3 and not("royecto" in item):
                 nivel4+=1
-                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
                 
                 nivel5 = 1
                 nivel6 = 1
             elif depth  == 4 and not("royecto" in item):
                 nivel5+=1
-                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
+                f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
                 
 
                 nivel6 = 1
             elif depth  == 5 and not("royecto" in item):
-                f.write("<tr><td><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'>1</td></tr>")
+                f.write("<tr><td><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+str(nivel4-1)+"."+str(nivel5-1)+"."+str(nivel6-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
                 nivel6+=1                   
                 
     f.write("</table><div id='content'>")
@@ -274,6 +302,7 @@ def apuntes(carpeta):
         try:
             if "acomment" in item:
                 f.write("</pre><pre class='nocode'>")
+                f.write("<p><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></p>")
                 f.write("<p>")
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
@@ -388,13 +417,14 @@ def apuntes(carpeta):
     <div id="prueba"></div>
         </main>
         
-        <footer>'''+piedepagina+'''</footer>
+        <footer>[pagina]</footer>
         </body>
         <script src="generadorapuntes/paginador.js"></script>
         </html>
     ''')
         
     f.close()
+    fpower.close()
     print("ok hecho")
 
 
