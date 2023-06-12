@@ -104,10 +104,13 @@ def apuntes(carpeta):
         extensionarchivo = explotado[1]
         nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
         nombrenuevoarchivoconsola = nombrearchivo+".zconsole"+extensionarchivo
-        if not "acomment" in item and not "zconsole" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
+        nombrenuevoarchivoactividad = nombrearchivo+".zzactividad"+extensionarchivo
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
             f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
-        if not "zconsole" in item and not "acomment" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoconsola):     
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoconsola):     
             f2 = open(directorio+"//"+nombrenuevoarchivoconsola, 'w+')
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoactividad):     
+            f2 = open(directorio+"//"+nombrenuevoarchivoactividad, 'w+')
         #print(item)
         if not(os.path.isfile(item)):
             f.write("</pre>")
@@ -263,7 +266,11 @@ def apuntes(carpeta):
                         f.write("<p class='negrita'>Resultado:</p>")
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
                     elif "console" in item:
-                         f.write("<div class='nombrearchivo console'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
+                        if os.stat(item).st_size != 0:
+                            f.write("<div class='nombrearchivo console'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
+                    elif "zzactividad" in item:
+                        if os.stat(item).st_size != 0:
+                            f.write("<div class='cabeceraactividad'>Actividad</div>")
                     else:
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
             
@@ -357,7 +364,11 @@ def apuntes(carpeta):
                     else:
                             numerodelinea = 1
                             if "console" in item:
-                                f.write("</pre><pre class='code console'>")
+                                if os.stat(item).st_size != 0:
+                                    f.write("</pre><pre class='code console'>")
+                            elif "zzactividad" in item:
+                                if os.stat(item).st_size != 0:
+                                    f.write("</pre><pre class='code actividad'>")
                             else:
                                 f.write("</pre><pre class='code'>")
                             #print("nuevo")
