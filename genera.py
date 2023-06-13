@@ -34,7 +34,7 @@ def get_selected_value():
 
 def apuntes(carpeta):
 
-    excepciones = ['jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
+    excepciones = ['datos.json','README.md','jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
     abreviaturas = ['traductor.csv']
     archivos = {}
     # Usage example
@@ -431,7 +431,7 @@ def apuntes(carpeta):
         <footer>[pagina]</footer>
         </body>
         <script src="generadorapuntes/paginador.js"></script>
-        <script src="generadorapuntes/diapositivas.js"></script>
+        
         </html>
     ''')
     fpower.write('''

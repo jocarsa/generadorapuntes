@@ -34,6 +34,7 @@ margin-top:0px;
 white-space: pre-wrap;
 font-size:11px;
  line-break: anywhere;
+margin-bottom:0px;
 }
 .code2{
     border-radius:10px 10px 10px 10px;
@@ -101,7 +102,7 @@ bottom: 0;
 }
 header{position:fixed;top:0px;border-bottom:1px solid grey;width:100%;text-align:center;}
 footer{position:fixed;bottom:0px;border-top:1px solid grey;width:100%;text-align:center;}
-.nocode{background:white;font-family:Ubuntu;}
+.nocode{background:white;font-family:Ubuntu;line-break:auto;}
 
 
 .ruptura{
