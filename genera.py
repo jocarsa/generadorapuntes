@@ -133,11 +133,11 @@ def apuntes(carpeta):
         nombrenuevoarchivo = nombrearchivo+".acomment"+extensionarchivo
         nombrenuevoarchivoconsola = nombrearchivo+".zconsole"+extensionarchivo
         nombrenuevoarchivoactividad = nombrearchivo+".zzactividad"+extensionarchivo
-        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo):     
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivo) and not "png" in item and not "jpg" in item:     
             f2 = open(directorio+"//"+nombrenuevoarchivo, 'w+')
-        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoconsola):     
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoconsola) and not "png" in item and not "jpg" in item:     
             f2 = open(directorio+"//"+nombrenuevoarchivoconsola, 'w+')
-        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoactividad):     
+        if not "zconsole" in item and not "acomment" in item  and not "zzactividad" in item and os.path.isfile(item) and not os.path.exists(directorio+"//"+nombrenuevoarchivoactividad) and not "png" in item and not "jpg" in item:     
             f2 = open(directorio+"//"+nombrenuevoarchivoactividad, 'w+')
         #print(item)
         if not(os.path.isfile(item)):
@@ -431,9 +431,21 @@ def apuntes(carpeta):
         <footer>[pagina]</footer>
         </body>
         <script src="generadorapuntes/paginador.js"></script>
+        <script src="generadorapuntes/diapositivas.js"></script>
         </html>
     ''')
+    fpower.write('''
+</div>
+    <div id="pageFooter">Page </div>
+    <div id="prueba"></div>
+        </main>
         
+        <footer>[pagina]</footer>
+        </body>
+        
+        <script src="generadorapuntes/diapositivas.js"></script>
+        </html>
+    ''')
     f.close()
     fpower.close()
     print("ok hecho")
