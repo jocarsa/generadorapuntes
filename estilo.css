@@ -145,11 +145,7 @@ max-width:100%;text-align:center;margin:auto;}
 }
 }
 
-@page {
-  @bottom-left {
-    content: counter(page);
-  }
-}
+
 
 body {
   counter-reset: page;
@@ -175,13 +171,7 @@ body {
     background:rgb(50,50,50);
     color:white;
 }
-@page header{
-    counter-increment: page;
-    counter-reset: page 1;
-    @top-right {
-        content: "Page " counter(page) " of " counter(pages);
-    }
-}
+
 #titulo,#subtitulo,#autor{
     margin-bottom:100px;
 }
@@ -230,5 +220,22 @@ html,body{
 }
 @page {
         padding-top: 50mm; 
+}
+@page {
+ counter-increment: page;
+}
+
+footer::after {
+  content: "Page " counter(page);
+}
+#contenido {
+    display: table;
+}
+footer {
+    display: table-footer-group;
+}
+footer:after {
+    counter-increment: page;
+    content: counter(page);
 }
 

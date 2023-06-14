@@ -71,7 +71,7 @@ def apuntes(carpeta):
         <html>
             <head>
                 <link rel="Stylesheet" href="generadorapuntes/estilo.css">
-                
+                <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
             </head>
             <body>
             <header>'''+cabecera+'''</header>
