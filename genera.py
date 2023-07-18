@@ -3,8 +3,9 @@ import html
 import json
 import tkinter as tk
 from tkinter import ttk
+import re
 
-
+ponimagen = True
 
 def get_folder_list(path):
     folder_list = []
@@ -26,6 +27,14 @@ def get_files_and_folders(directory, depth=0):
                 items.extend(get_files_and_folders(path, depth + 1))
     return items
 
+def replace_odd_even_backticks(input_string):
+    def replace_backtick(match):
+        return "<span class='microcodigo'>" if match.group(0) == "`" else "</span>"
+
+    return re.sub(r"`{1}", replace_backtick, input_string)
+
+
+
 def get_selected_value():
     selected_value = folder_combobox.get()
     print("Selected Value:", selected_value)
@@ -33,7 +42,7 @@ def get_selected_value():
     apuntes(limpio)
 
 def apuntes(carpeta):
-
+    
     excepciones = ['datos.json','README.md','jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
     abreviaturas = ['traductor.csv']
     archivos = {}
@@ -63,7 +72,7 @@ def apuntes(carpeta):
         os.remove(directory_path+"-doc.html")
         os.remove(directory_path+"-pres.html")
     except:
-        pass
+        print("Error quitando archivos anteriores")
     f = open(directory_path+"-doc.html", "a", encoding='utf-8-sig')
     fpower = open(directory_path+"-pres.html", "a", encoding='utf-8-sig')
     f.write('''
@@ -71,7 +80,7 @@ def apuntes(carpeta):
         <html>
             <head>
                 <link rel="Stylesheet" href="generadorapuntes/estilo.css">
-                <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+                
             </head>
             <body>
             <header>'''+cabecera+'''</header>
@@ -244,8 +253,7 @@ def apuntes(carpeta):
                 nivel6+=1                   
                 
             if  "royecto" in os.path.basename(item):
-                #nivel2+=1
-                #f.write("<h2> </h2>")
+                ########## SI ES UN PROYECTO, MOSTRAMOS LA ESTRUCTURA DEL DIRECTORIO #######
                 f.write("<b>Estructura del directorio</b><br>")
                 nivel3 = 1
                 nivel4 = 1
@@ -254,22 +262,20 @@ def apuntes(carpeta):
                 file_list2 = get_files_and_folders(item)
                 estructura = ""
                 for item2,depth2 in file_list2:
-                    if not "acomment" in item2:
+                    if not "acomment" in item2 and not "zconsole" in item2 and not "zzactividad" in item2:
                         sub = False
                         for i in range(0,depth2):
                             sub = True
                             estructura += "<img src='vacio.svg' class='carpeta' style='margin-left:5px;'>"
                         if sub == True:
                             estructura += "<img src='nodocarpeta.svg' class='carpeta' style='margin-left:5px;'>"
-                        if os.path.isfile(item2) and not "acomment" in item:
+                        if os.path.isfile(item2) and not "acomment" in item and not "zconsole" in item and not "zzactividad" in item:
                            estructura += "<img src='archivo.svg' class='carpeta'>"
                         else:
                             estructura += "<img src='carpeta.svg' class='carpeta'>"
-                        if not "acomment" in item:
+                        if not "acomment" in item and not "zconsole" in item and not "zzactividad" in item:
                             estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
                 f.write(estructura)
-                #f.write("<h2> Contenido:</h2>")
-                #f.write("<h3>Directorio raíz:</h3>")
         else:
 
             if "comment" in item:
@@ -304,10 +310,17 @@ def apuntes(carpeta):
             
                
         if "png" in item or "jpg" in item:
-            archivos[os.path.basename(item)] = os.path.getsize(item)
+            if os.path.basename(item) in archivos:
+                archivos[os.path.basename(item)] = os.path.getsize(item)
+                ponimagen= True
+                print("La imagen no existia, pero la creo ahora")
+            else:
+                ponimagen = False
+                print("La imagen ya existia")
             print("imagen: "+item+" - "+str(os.path.getsize(item)))            
         try:
-            if "acomment" in item:
+            if "acomment" in item :
+                ################### Comentarios            
                 f.write("</pre><pre class='nocode'>")
                 f.write("<p><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></p>")
                 f.write("<p>")
@@ -316,20 +329,24 @@ def apuntes(carpeta):
                     content = file.read()
                     #f.write(content)
                     lines = content.splitlines()
-                    
                     for i in range(0,len(lines)):
                         if "--" in lines[i]:
                             f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("--",""))+"</pre>")
-                            
                         else:
-                            f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
+                            f.write(replace_odd_even_backticks(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>"))
+                print("contenido del archivo")
                 f.write("</p>")
                 f.write("</pre>")
                 pass
             elif "captura" in item:
                 f.write("</pre><pre class='captura'><img src='"+subecarpeta+item+"'></pre>")
-            elif "png" in item or "jpg" in item:
-                f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
+            elif "png" in item or "jpg" in item: ########## IMÁGENES EN JPG O PNG
+                if ponimagen == False:
+                    print("tamaño del archivo en la lista: "+str(archivos[os.path.basename(item)]))
+                    print("tamaño del archivo: "+str(os.path.getsize(item)))
+                    f.write("</pre><pre class='code'>(sin cambios en la imagen)</pre<br>")
+                else:
+                    f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
             else:
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
@@ -378,7 +395,7 @@ def apuntes(carpeta):
                                     numerodelinea += 1
                             f.write("<br>")
                             #f.write(str(count)+"\n\r\n\r")
-                            if "acomment" in item:
+                            if "acomment" in item or "zconsole" in item or "zactividad" in item:
                                 pass
                            
                             else:
@@ -430,7 +447,7 @@ def apuntes(carpeta):
         
         <footer>[pagina]</footer>
         </body>
-        <script src="generadorapuntes/paginador.js"></script>
+        
         
         </html>
     ''')
