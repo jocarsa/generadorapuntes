@@ -27,7 +27,7 @@ padding:50px;
 }
 }
 pre{
-padding:14px;
+/*padding:14px;*/
 background:rgb(240,240,240);
 border-radius:0px 0px 10px 10px;
 margin-top:0px;
@@ -192,7 +192,7 @@ page-break-before :  always;
     height:100%;
 }
 #primeradiapositiva #titulo{
-    font-size:200px;
+    font-size:100px;
 }
 .diapositiva h2{
     font-size:50px;
@@ -204,7 +204,7 @@ page-break-before :  always;
     padding-left:30px;
 }
 #primerapagina{
-    font-size:150px;
+    font-size:100px;
     page-break-after  :always;
     page-break-before  :always;
     display:block;
@@ -239,3 +239,7 @@ footer:after {
     content: counter(page);
 }
 
+.microcodigo{
+    font-family:monospace;
+    font-weight:bold;
+}
