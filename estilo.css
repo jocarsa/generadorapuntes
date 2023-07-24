@@ -243,3 +243,9 @@ footer:after {
     font-family:monospace;
     font-weight:bold;
 }
+b{
+    padding-top:20px;
+    padding-bottom:20px;
+    
+    display:block;
+}

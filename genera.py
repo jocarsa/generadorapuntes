@@ -262,7 +262,7 @@ def apuntes(carpeta):
                 file_list2 = get_files_and_folders(item)
                 estructura = ""
                 for item2,depth2 in file_list2:
-                    if not "acomment" in item2 and not "zconsole" in item2 and not "zzactividad" in item2:
+                    if not "acomment" in item2 and not "zconsole" in item2 and not "zzactividad" in item2 and not "Captura" in item2:
                         sub = False
                         for i in range(0,depth2):
                             sub = True
@@ -273,7 +273,7 @@ def apuntes(carpeta):
                            estructura += "<img src='archivo.svg' class='carpeta'>"
                         else:
                             estructura += "<img src='carpeta.svg' class='carpeta'>"
-                        if not "acomment" in item and not "zconsole" in item and not "zzactividad" in item:
+                        if not "acomment" in item and not "zconsole" in item and not "zzactividad" in item and not "Captura" in item:
                             estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
                 f.write(estructura)
         else:
@@ -338,7 +338,7 @@ def apuntes(carpeta):
                 f.write("</p>")
                 f.write("</pre>")
                 pass
-            elif "captura" in item:
+            elif "Captura" in item:
                 f.write("</pre><pre class='captura'><img src='"+subecarpeta+item+"'></pre>")
             elif "png" in item or "jpg" in item: ########## IMÁGENES EN JPG O PNG
                 if ponimagen == False:
