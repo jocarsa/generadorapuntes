@@ -6,6 +6,23 @@ from tkinter import ttk
 import re
 
 ponimagen = True
+codigopar = True
+
+def replace_lines_starting_with_code_block(text, replacement_string):
+    # Define the regular expression pattern to match lines starting with ``` and a letter
+    pattern = r'^(```)([a-zA-Z])'
+    
+    # Use the re.MULTILINE flag to match the pattern at the start of each line
+    # re.DOTALL flag allows dot (.) to match any character, including newlines
+    # This ensures that the entire line is matched, even if it spans multiple lines.
+    result = re.sub(pattern, lambda match: f'{replacement_string}{match.group(2)}', text, flags=re.MULTILINE | re.DOTALL)
+    
+    return result
+
+# Example usage:
+def replacement_text(letter):
+    # You can modify this function to return any replacement you want
+    return f'Replacement for {letter}'
 
 def get_folder_list(path):
     folder_list = []
@@ -322,7 +339,7 @@ def apuntes(carpeta):
             if "acomment" in item :
                 ################### Comentarios            
                 f.write("</pre><pre class='nocode'>")
-                f.write("<p><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></p>")
+                f.write("<p><big><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></big></p>")
                 f.write("<p>")
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
@@ -330,10 +347,25 @@ def apuntes(carpeta):
                     #f.write(content)
                     lines = content.splitlines()
                     for i in range(0,len(lines)):
-                        if "--" in lines[i]:
-                            f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("--",""))+"</pre>")
+                        if "---" in lines[i]:
+                            f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("---",""))+"</pre>")
                         else:
-                            f.write(replace_odd_even_backticks(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>"))
+                            
+                                f.write(replace_lines_starting_with_code_block((lines[i].replace("&", "&amp;")
+                                         .replace("<", "&lt;")
+                                         .replace(">", "&gt;")
+                                         .replace(" `", " <span class='microcodigo'>")
+                                        .replace("(`", "(<span class='microcodigo'>")
+                                         .replace("` ", "</span> ")
+                                         .replace("`.", "</span>.")
+                                         .replace("`:", "</span>:")
+                                        .replace("`)", "</span>)")
+                                         .replace("`,", "</span>,")
+                                         .replace(" ```", "<span class='code'>")
+                                         .replace(" **", "<span class='bold'>")
+                                         .replace("** ", "</span> ")
+                                         +"<br>"),'<pre class="code minicode">').replace('```',"</pre>"))
+                           
                 print("contenido del archivo")
                 f.write("</p>")
                 f.write("</pre>")
@@ -342,8 +374,8 @@ def apuntes(carpeta):
                 f.write("</pre><pre class='captura'><img src='"+subecarpeta+item+"'></pre>")
             elif "png" in item or "jpg" in item: ########## IMÁGENES EN JPG O PNG
                 if ponimagen == False:
-                    print("tamaño del archivo en la lista: "+str(archivos[os.path.basename(item)]))
-                    print("tamaño del archivo: "+str(os.path.getsize(item)))
+                    #print("tamaño del archivo en la lista: "+str(archivos[os.path.basename(item)]))
+                    #print("tamaño del archivo: "+str(os.path.getsize(item)))
                     f.write("</pre><pre class='code'>(sin cambios en la imagen)</pre<br>")
                 else:
                     f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
@@ -433,9 +465,9 @@ def apuntes(carpeta):
             
         except Exception as e:
             #print(item)
-            print(e)
+            #print(e)
             #print("------------------------")
-            print("error")
+            #print("error")
             pass
     
                 

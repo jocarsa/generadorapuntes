@@ -243,9 +243,17 @@ footer:after {
     font-family:monospace;
     font-weight:bold;
 }
+<<<<<<< Updated upstream
 b{
     padding-top:20px;
     padding-bottom:20px;
     
     display:block;
+=======
+.bold{
+    font-weight:bold;
+}
+.minicode{
+    padding:10px;
+>>>>>>> Stashed changes
 }
