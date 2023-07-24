@@ -330,21 +330,23 @@ def apuntes(carpeta):
             if os.path.basename(item) in archivos:
                 archivos[os.path.basename(item)] = os.path.getsize(item)
                 ponimagen= True
-                print("La imagen no existia, pero la creo ahora")
+                #print("La imagen no existia, pero la creo ahora")
             else:
                 ponimagen = False
-                print("La imagen ya existia")
-            print("imagen: "+item+" - "+str(os.path.getsize(item)))            
+                #print("La imagen ya existia")
+            #print("imagen: "+item+" - "+str(os.path.getsize(item)))            
         try:
             if "acomment" in item :
                 ################### Comentarios            
                 f.write("</pre><pre class='nocode'>")
+                print("trato el archivo:"+item)
                 f.write("<p><big><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></big></p>")
                 f.write("<p>")
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
                     content = file.read()
                     #f.write(content)
+                    print("ok si")
                     lines = content.splitlines()
                     for i in range(0,len(lines)):
                         if "---" in lines[i]:
