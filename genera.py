@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 import re
 
-ponimagen = True
+ponimagen = True 
 codigopar = True
 
 def replace_lines_starting_with_code_block(text, replacement_string):
