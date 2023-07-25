@@ -191,7 +191,7 @@ def apuntes(carpeta):
                 nivel4 = 1
                 nivel5 = 1
                 nivel6 = 1
-            elif depth  == 2 and not("royecto" in item):
+            elif depth  == 2:
                 nivel3+=1
                 f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
                 fpower.write("<h3>"+item.split('\\')[-1].split('-')[-1]+"</h3>")
@@ -318,8 +318,8 @@ def apuntes(carpeta):
                             micadena += "<img src='carpeta.svg' class='carpeta'>"
                         
                         micadena += partido[i].split('-')[-1]
-                    if "captura" in item:
-                        f.write("<p class='negrita'>Resultado:</p>")
+                    if "Captura" in item:
+                        #f.write("<p class='negrita'>Resultado:</p>")
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
                     elif "console" in item:
                         if os.stat(item).st_size != 0:
@@ -327,9 +327,11 @@ def apuntes(carpeta):
                     elif "zzactividad" in item:
                         if os.stat(item).st_size != 0:
                             f.write("<div class='cabeceraactividad'>Actividad</div>")
+                    elif ("png" in item or "jpg" in item or "avif" in item) and not "Captura" in item :
+                        pass
                     else:
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
-            
+                        #pass
                
         if "png" in item or "jpg" in item:
             if os.path.basename(item) in archivos:
@@ -345,7 +347,11 @@ def apuntes(carpeta):
                 ################### Comentarios            
                 f.write("</pre><pre class='nocode'>")
                 print("trato el archivo:"+item)
-                f.write("<p><big><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></big></p>")
+                if "-" in os.path.basename(item):
+                    
+                    f.write("<p><big><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></big></p>")
+                else:
+                    f.write("<p><big><b>"+os.path.basename(item).replace(".acomment","")+"</b></big></p>")
                 f.write("<p>")
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
@@ -358,20 +364,20 @@ def apuntes(carpeta):
                             f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("---",""))+"</pre>")
                         else:
                             
-                                f.write(replace_lines_starting_with_code_block((lines[i].replace("&", "&amp;")
+                                f.write("<p>"+replace_lines_starting_with_code_block((lines[i].replace("&", "&amp;")
                                          .replace("<", "&lt;")
                                          .replace(">", "&gt;")
                                          .replace(" `", " <span class='microcodigo'>")
-                                        .replace("(`", "(<span class='microcodigo'>")
+                                         .replace("(`", "(<span class='microcodigo'>")
                                          .replace("` ", "</span> ")
                                          .replace("`.", "</span>.")
                                          .replace("`:", "</span>:")
-                                        .replace("`)", "</span>)")
+                                         .replace("`)", "</span>)")
                                          .replace("`,", "</span>,")
                                          .replace(" ```", "<span class='code'>")
                                          .replace(" **", "<span class='bold'>")
                                          .replace("** ", "</span> ")
-                                         +"<br>"),'<pre class="code minicode">').replace('```',"</pre>"))
+                                         +"<br>"),'<pre class="code minicode">').replace('```',"</pre>")+"</p>")
                            
                 print("contenido del archivo")
                 f.write("</p>")
@@ -383,7 +389,8 @@ def apuntes(carpeta):
                 if ponimagen == False:
                     #print("tamaño del archivo en la lista: "+str(archivos[os.path.basename(item)]))
                     #print("tamaño del archivo: "+str(os.path.getsize(item)))
-                    f.write("</pre><pre class='code'>(sin cambios en la imagen)</pre<br>")
+                    #f.write("</pre><pre class='code'>(sin cambios en la imagen)</pre<br>")
+                    pass
                 else:
                     f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
             else:
@@ -396,8 +403,9 @@ def apuntes(carpeta):
                         f.write("</pre><pre class='code'>(abreviado)</pre<br>")
                     elif str(os.path.basename(item)) in archivos.keys():
                         
-                        if archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item):
+                        if (archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item)) and (not "jpg" in item or not "png" in item or not "avif" in item):
                             f.write("</pre><pre class='code'>(sin cambios)</pre<br>")
+                            pass
                         else:
                             f.write("</pre>")
                             numerodelinea = 1
@@ -472,7 +480,7 @@ def apuntes(carpeta):
             
         except Exception as e:
             #print(item)
-            #print(e)
+            print(e)
             #print("------------------------")
             #print("error")
             pass
