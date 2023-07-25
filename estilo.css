@@ -79,7 +79,10 @@ a{color:inherit;text-decoration:none;}
 #titulo{font-weight:bold;font-size:60px;text-align:center;}
 #subtitulo{font-weight:bold;font-size:40px;text-align:center;}
 #autor{font-weight:bold;font-size:30px;text-align:center;}
-p{text-align:justify;font-size:14px;}
+p{text-align:justify;font-size:14px;
+margin-top:3px;
+    margin-bottom:3px;
+}
 @media only print {
 h1{
 padding-top:200px;
