@@ -3,26 +3,8 @@ import html
 import json
 import tkinter as tk
 from tkinter import ttk
-import re
 
-ponimagen = True 
-codigopar = True
 
-def replace_lines_starting_with_code_block(text, replacement_string):
-    # Define the regular expression pattern to match lines starting with ``` and a letter
-    pattern = r'^(```)([a-zA-Z])'
-    
-    # Use the re.MULTILINE flag to match the pattern at the start of each line
-    # re.DOTALL flag allows dot (.) to match any character, including newlines
-    # This ensures that the entire line is matched, even if it spans multiple lines.
-    result = re.sub(pattern, lambda match: f'{replacement_string}{match.group(2)}', text, flags=re.MULTILINE | re.DOTALL)
-    
-    return result
-
-# Example usage:
-def replacement_text(letter):
-    # You can modify this function to return any replacement you want
-    return f'Replacement for {letter}'
 
 def get_folder_list(path):
     folder_list = []
@@ -44,14 +26,6 @@ def get_files_and_folders(directory, depth=0):
                 items.extend(get_files_and_folders(path, depth + 1))
     return items
 
-def replace_odd_even_backticks(input_string):
-    def replace_backtick(match):
-        return "<span class='microcodigo'>" if match.group(0) == "`" else "</span>"
-
-    return re.sub(r"`{1}", replace_backtick, input_string)
-
-
-
 def get_selected_value():
     selected_value = folder_combobox.get()
     print("Selected Value:", selected_value)
@@ -59,13 +33,8 @@ def get_selected_value():
     apuntes(limpio)
 
 def apuntes(carpeta):
-<<<<<<< Updated upstream
-    
-    excepciones = ['datos.json','README.md','jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
-=======
 
     excepciones = ['registros.sqlite','registros.csv','datos.json','README.md','jquery-3.7.0.js','jquery-3.7.0.min.js','jquery-3.6.0.min.js','jquery-3.7.0.slim.js','jquery-3.7.0.slim.min.js','jquery-ui.min.css','jquery-ui.min.js','jquery-ui.structure.min.css','jquery-ui.theme.min.css','jquery.js']
->>>>>>> Stashed changes
     abreviaturas = ['traductor.csv']
     archivos = {}
     # Usage example
@@ -94,7 +63,7 @@ def apuntes(carpeta):
         os.remove(directory_path+"-doc.html")
         os.remove(directory_path+"-pres.html")
     except:
-        print("Error quitando archivos anteriores")
+        pass
     f = open(directory_path+"-doc.html", "a", encoding='utf-8-sig')
     fpower = open(directory_path+"-pres.html", "a", encoding='utf-8-sig')
     f.write('''
@@ -191,7 +160,7 @@ def apuntes(carpeta):
                 nivel4 = 1
                 nivel5 = 1
                 nivel6 = 1
-            elif depth  == 2:
+            elif depth  == 2 and not("royecto" in item):
                 nivel3+=1
                 f.write("<tr><td><a href='#"+item+"'><p class='indice"+str(depth+1)+"'> "+str(nivel1)+"."+str(nivel2-1)+"."+str(nivel3-1)+"."+"-"+item.split('\\')[-1].split('-')[-1]+"</p></a></td><td class='numpagina'></td></tr>")
                 fpower.write("<h3>"+item.split('\\')[-1].split('-')[-1]+"</h3>")
@@ -275,7 +244,8 @@ def apuntes(carpeta):
                 nivel6+=1                   
                 
             if  "royecto" in os.path.basename(item):
-                ########## SI ES UN PROYECTO, MOSTRAMOS LA ESTRUCTURA DEL DIRECTORIO #######
+                #nivel2+=1
+                #f.write("<h2> </h2>")
                 f.write("<b>Estructura del directorio</b><br>")
                 nivel3 = 1
                 nivel4 = 1
@@ -284,20 +254,22 @@ def apuntes(carpeta):
                 file_list2 = get_files_and_folders(item)
                 estructura = ""
                 for item2,depth2 in file_list2:
-                    if not "acomment" in item2 and not "zconsole" in item2 and not "zzactividad" in item2 and not "Captura" in item2:
+                    if not "acomment" in item2:
                         sub = False
                         for i in range(0,depth2):
                             sub = True
                             estructura += "<img src='vacio.svg' class='carpeta' style='margin-left:5px;'>"
                         if sub == True:
                             estructura += "<img src='nodocarpeta.svg' class='carpeta' style='margin-left:5px;'>"
-                        if os.path.isfile(item2) and not "acomment" in item and not "zconsole" in item and not "zzactividad" in item:
+                        if os.path.isfile(item2) and not "acomment" in item:
                            estructura += "<img src='archivo.svg' class='carpeta'>"
                         else:
                             estructura += "<img src='carpeta.svg' class='carpeta'>"
-                        if not "acomment" in item and not "zconsole" in item and not "zzactividad" in item and not "Captura" in item:
+                        if not "acomment" in item:
                             estructura += item2.split('\\')[-1].split('-')[-1]+"<br>"
                 f.write(estructura)
+                #f.write("<h2> Contenido:</h2>")
+                #f.write("<h3>Directorio raíz:</h3>")
         else:
 
             if "comment" in item:
@@ -318,8 +290,8 @@ def apuntes(carpeta):
                             micadena += "<img src='carpeta.svg' class='carpeta'>"
                         
                         micadena += partido[i].split('-')[-1]
-                    if "Captura" in item:
-                        #f.write("<p class='negrita'>Resultado:</p>")
+                    if "captura" in item:
+                        f.write("<p class='negrita'>Resultado:</p>")
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div><div class='url'></div></div>")
                     elif "console" in item:
                         if os.stat(item).st_size != 0:
@@ -327,72 +299,37 @@ def apuntes(carpeta):
                     elif "zzactividad" in item:
                         if os.stat(item).st_size != 0:
                             f.write("<div class='cabeceraactividad'>Actividad</div>")
-                    elif ("png" in item or "jpg" in item or "avif" in item) and not "Captura" in item :
-                        pass
                     else:
                         f.write("<div class='nombrearchivo'><div class='boton rojo'></div><div class='boton amarillo'></div><div class='boton verde'></div>"+micadena+"</div>")
-                        #pass
+            
                
         if "png" in item or "jpg" in item:
-            if os.path.basename(item) in archivos:
-                archivos[os.path.basename(item)] = os.path.getsize(item)
-                ponimagen= True
-                #print("La imagen no existia, pero la creo ahora")
-            else:
-                ponimagen = False
-                #print("La imagen ya existia")
-            #print("imagen: "+item+" - "+str(os.path.getsize(item)))            
+            archivos[os.path.basename(item)] = os.path.getsize(item)
+            print("imagen: "+item+" - "+str(os.path.getsize(item)))            
         try:
-            if "acomment" in item :
-                ################### Comentarios            
+            if "acomment" in item:
                 f.write("</pre><pre class='nocode'>")
-                print("trato el archivo:"+item)
-                if "-" in os.path.basename(item):
-                    
-                    f.write("<p><big><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></big></p>")
-                else:
-                    f.write("<p><big><b>"+os.path.basename(item).replace(".acomment","")+"</b></big></p>")
+                f.write("<p><b>"+os.path.basename(item).split("-")[1].split(".")[0]+"</b></p>")
                 f.write("<p>")
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
                     content = file.read()
                     #f.write(content)
-                    print("ok si")
                     lines = content.splitlines()
+                    
                     for i in range(0,len(lines)):
-                        if "---" in lines[i]:
-                            f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("---",""))+"</pre>")
-                        else:
+                        if "--" in lines[i]:
+                            f.write("<pre class='code code2'>"+(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("--",""))+"</pre>")
                             
-                                f.write("<p>"+replace_lines_starting_with_code_block((lines[i].replace("&", "&amp;")
-                                         .replace("<", "&lt;")
-                                         .replace(">", "&gt;")
-                                         .replace(" `", " <span class='microcodigo'>")
-                                         .replace("(`", "(<span class='microcodigo'>")
-                                         .replace("` ", "</span> ")
-                                         .replace("`.", "</span>.")
-                                         .replace("`:", "</span>:")
-                                         .replace("`)", "</span>)")
-                                         .replace("`,", "</span>,")
-                                         .replace(" ```", "<span class='code'>")
-                                         .replace(" **", "<span class='bold'>")
-                                         .replace("** ", "</span> ")
-                                         +"<br>"),'<pre class="code minicode">').replace('```',"</pre>")+"</p>")
-                           
-                print("contenido del archivo")
+                        else:
+                            f.write(lines[i].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")+"<br>")
                 f.write("</p>")
                 f.write("</pre>")
                 pass
-            elif "Captura" in item:
+            elif "captura" in item:
                 f.write("</pre><pre class='captura'><img src='"+subecarpeta+item+"'></pre>")
-            elif "png" in item or "jpg" in item: ########## IMÁGENES EN JPG O PNG
-                if ponimagen == False:
-                    #print("tamaño del archivo en la lista: "+str(archivos[os.path.basename(item)]))
-                    #print("tamaño del archivo: "+str(os.path.getsize(item)))
-                    #f.write("</pre><pre class='code'>(sin cambios en la imagen)</pre<br>")
-                    pass
-                else:
-                    f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
+            elif "png" in item or "jpg" in item:
+                f.write("</pre><pre class='nocode'><img src='"+subecarpeta+item+"'></pre>")
             else:
                 file_path = item
                 with open(file_path, 'r', encoding='utf-8-sig') as file:
@@ -403,9 +340,8 @@ def apuntes(carpeta):
                         f.write("</pre><pre class='code'>(abreviado)</pre<br>")
                     elif str(os.path.basename(item)) in archivos.keys():
                         
-                        if (archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item)) and (not "jpg" in item or not "png" in item or not "avif" in item):
+                        if archivos[os.path.basename(item)] == content or archivos[os.path.basename(item)] == os.path.getsize(item):
                             f.write("</pre><pre class='code'>(sin cambios)</pre<br>")
-                            pass
                         else:
                             f.write("</pre>")
                             numerodelinea = 1
@@ -442,7 +378,7 @@ def apuntes(carpeta):
                                     numerodelinea += 1
                             f.write("<br>")
                             #f.write(str(count)+"\n\r\n\r")
-                            if "acomment" in item or "zconsole" in item or "zactividad" in item:
+                            if "acomment" in item:
                                 pass
                            
                             else:
@@ -482,7 +418,7 @@ def apuntes(carpeta):
             #print(item)
             print(e)
             #print("------------------------")
-            #print("error")
+            print("error")
             pass
     
                 
